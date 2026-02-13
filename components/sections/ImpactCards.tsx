@@ -20,17 +20,19 @@ const ImpactCards = () => {
 
         <div className="grid md:grid-cols-3 gap-6">
           {tiers.map((tier, idx) => (
-            <div key={idx} className="bg-white/5 backdrop-blur-sm border border-white/5 p-8 rounded-[2rem] hover:bg-white/10 transition-all group">
+            <div key={idx} className="bg-white/5 backdrop-blur-sm border border-white/5 p-6 sm:p-8 rounded-[2rem] hover:bg-white/10 transition-all group">
               <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center mb-6 group-hover:rotate-6 transition-transform shadow-lg shadow-primary/20">
                 <tier.icon className="w-6 h-6 text-brand-dark" />
               </div>
-              <div className="mb-4 flex items-baseline gap-2">
-                <span className="text-4xl font-bold tracking-tight font-serif text-white">MK{tier.amount}</span>
-                <span className="text-white/40 font-semibold uppercase tracking-wider text-[10px]">/ Life Changed</span>
+              <div className="mb-4 flex items-baseline gap-2 flex-wrap">
+                <span className="text-3xl sm:text-4xl font-bold tracking-tight font-serif text-white">MK{tier.amount}</span>
+                <span className="text-white/40 font-semibold uppercase tracking-wider text-[9px] sm:text-[10px]">/ Life Changed</span>
               </div>
-              <h3 className="text-xl font-bold mb-3 tracking-tight">{tier.label}</h3>
-              <p className="text-white/50 mb-8 leading-relaxed text-sm">{tier.impact}</p>
-              <button className="w-full px-7 py-3 rounded-full font-semibold transition-all duration-300 flex items-center justify-center gap-2 border-2 border-white/15 text-white hover:bg-white hover:text-[#14532d]">Sponsor This Today</button>
+              <h3 className="text-lg sm:text-xl font-bold mb-3 tracking-tight">{tier.label}</h3>
+              <p className="text-white/50 mb-8 leading-relaxed text-xs sm:text-sm">{tier.impact}</p>
+              <button className="w-full px-6 py-3 rounded-full font-semibold transition-all duration-300 flex items-center justify-center gap-2 border-2 border-white/15 text-white hover:bg-primary hover:text-brand-dark hover:border-primary shadow-sm hover:shadow-primary/20">
+                Sponsor This Today
+              </button>
             </div>
           ))}
         </div>
