@@ -1,5 +1,8 @@
+"use client";
+
 import React from 'react';
-import { Users, Heart, Shield, MapPin, ArrowRight } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Linkedin, MapPin, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 interface FooterProps {
   onOpenLegal: (type: 'privacy' | 'terms' | 'audit') => void;
@@ -20,7 +23,7 @@ const Footer = ({ onOpenLegal }: FooterProps) => (
             Transforming communities through radical transparency and verified impact since 2009.
           </p>
           <div className="flex gap-3">
-             {[Users, Heart, Shield].map((Icon, i) => (
+             {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
                <div key={i} className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary hover:text-brand-dark transition-all duration-300 cursor-pointer group">
                  <Icon className="w-4 h-4 text-white group-hover:text-brand-dark transition-colors" />
                </div>
@@ -31,16 +34,16 @@ const Footer = ({ onOpenLegal }: FooterProps) => (
         {/* Navigation */}
         <div>
           <h4 className="text-primary font-bold uppercase tracking-[0.2em] text-xs mb-6">Navigation</h4>
-          <ul className="grid grid-cols-2 gap-y-3 gap-x-4">
+          <ul className="grid grid-cols-2 gap-y-3 gap-x-4 text-xs font-bold uppercase tracking-widest">
             {[
-              { name: 'Mission', id: '#home' },
-              { name: 'Financials', id: '#transparency' },
-              { name: 'Board', id: '#impact' },
-              { name: 'Impact', id: '#impact' },
-              { name: 'Careers', id: '#' },
-              { name: 'Causes', id: '#causes' }
+              { name: 'Mission', href: '/mission' },
+              { name: 'Financials', href: '/financials' },
+              { name: 'Board', href: '/board' },
+              { name: 'Impact', href: '/impact' },
+              { name: 'Careers', href: '/careers' },
+              { name: 'Causes', href: '/causes' }
             ].map(l => (
-              <li key={l.name}><a href={l.id} className="text-white/40 hover:text-white transition-colors text-sm font-medium">{l.name}</a></li>
+              <li key={l.name}><Link href={l.href} className="text-white/40 hover:text-white transition-colors">{l.name}</Link></li>
             ))}
           </ul>
         </div>
@@ -48,11 +51,11 @@ const Footer = ({ onOpenLegal }: FooterProps) => (
         {/* Regions */}
         <div>
           <h4 className="text-primary font-bold uppercase tracking-[0.2em] text-xs mb-6">Active Regions</h4>
-          <ul className="space-y-3">
+          <ul className="space-y-3 text-xs font-bold uppercase tracking-widest">
             {['Sub-Saharan Africa', 'Southeast Asia', 'Latin America'].map((region, i) => (
               <li key={i} className="flex items-center gap-2 text-white/40 hover:text-white transition-colors cursor-pointer group">
                 <MapPin className="w-3 h-3 text-secondary group-hover:scale-110 transition-transform" />
-                <span className="text-sm font-medium">{region}</span>
+                <span className="">{region}</span>
               </li>
             ))}
           </ul>
@@ -87,7 +90,7 @@ const Footer = ({ onOpenLegal }: FooterProps) => (
                 className="hover:text-primary transition-all cursor-pointer" 
                 onClick={() => onOpenLegal(link.type as any)}
               >
-                {link.name}
+                {link.name === 'Audit' ? 'View Full Audit Report' : link.name}
               </span>
             ))}
          </div>

@@ -1,9 +1,16 @@
+"use client";
+
 import React from 'react';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import Button from '../ui/Button';
+import { useDonation } from '@/context/DonationContext';
+import Link from 'next/link';
 
-const Hero = () => (
+const Hero = () => {
+  const { openModal } = useDonation();
+
+  return (
   <div id="home" className="relative min-h-[90vh] md:h-[75vh] w-full flex items-center overflow-hidden py-20 md:py-0">
     {/* Background Image with Overlay */}
     <div className="absolute inset-0 z-0">
@@ -34,14 +41,17 @@ const Hero = () => (
           Help us put 1,000 children back in classrooms before school starts Monday.
         </p>
         <div className="flex flex-col sm:flex-row gap-3">
-          <Button size="lg" variant="primary" className="w-full sm:w-auto text-sm sm:text-base">Change Amina&apos;s Life Today</Button>
-          <button className="px-6 sm:px-9 py-3 sm:py-4 text-sm sm:text-base rounded-full font-semibold transition-all duration-300 flex items-center justify-center gap-2 border-2 border-white/25 text-white bg-white/10 hover:bg-white/20 group w-full sm:w-auto">
+          <Button size="lg" variant="primary" className="w-full sm:w-auto text-sm sm:text-base" onClick={openModal}>
+            Change Amina&apos;s Life Today
+          </Button>
+          <Link href="/#impact" className="px-6 sm:px-9 py-3 sm:py-4 text-sm sm:text-base rounded-full font-semibold transition-all duration-300 flex items-center justify-center gap-2 border-2 border-white/25 text-white bg-white/10 hover:bg-white/20 group w-full sm:w-auto">
             See Where Your Money Goes <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </button>
+          </Link>
         </div>
       </div>
     </div>
   </div>
-);
+  );
+};
 
 export default Hero;

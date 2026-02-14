@@ -1,0 +1,34 @@
+# WordPress Content Guide for Stand for Children
+
+To populate your "Latest From WordPress" section, create 3 posts in your WordPress admin with the following details.
+
+---
+
+## Post 1: Education for All
+**Title:** Send a Child to School Before Monday
+**Content:** Every day without education is a day lost to poverty. Your donation covers tuition and supplies for children in rural communities. We ensure that every child has the books, bags, and uniforms they need to succeed.
+**Featured Image:** [Upload an image of children in a classroom]
+**Excerpt:** Every day without education is a day lost to poverty. Your donation covers tuition and supplies.
+
+---
+
+## Post 2: Clean Water Project
+**Title:** Clean Water: The Foundation of Learning
+**Content:** Stop the 4-hour walk. Bring water to the classroom so girls like Amina can stay in school. By installing wells directly in communities, we free up thousands of hours for education and growth.
+**Featured Image:** [Upload an image of a community water well or a child with water]
+**Excerpt:** Stop the 4-hour walk. Bring water to the classroom so girls like Amina can stay in school.
+
+---
+
+## Post 3: Teacher Support Fund
+**Title:** Teacher Salaries: Protecting the Future
+**Content:** Quality education depends on quality mentors. Ensure 50 teachers are paid this month to keep our schools running at peak performance. Teachers are the backbone of our community development strategy.
+**Featured Image:** [Upload an image of a teacher with students]
+**Excerpt:** Quality education depends on quality mentors. Ensure 50 teachers are paid this month.
+
+---
+
+### Tips for Best Visuals:
+- Use **landscape** images (approx. 1200x800px).
+- Ensure the **Excerpt** field is filled out, as this is what shows up on the homepage cards.
+- Set a **Featured Image** for every post to avoid placeholders.

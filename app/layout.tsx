@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Outfit, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import { DonationProvider } from "@/context/DonationContext";
+import PageClientWrapper from "@/components/PageClientWrapper";
 
 const outfit = Outfit({ 
   subsets: ["latin"],
@@ -27,9 +29,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <body className={`${outfit.variable} ${playfair.variable} font-sans text-text-main antialiased`}>
-        {children}
+        <DonationProvider>
+          <PageClientWrapper>
+            {children}
+          </PageClientWrapper>
+        </DonationProvider>
       </body>
     </html>
   );
