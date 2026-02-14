@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Stand for Children 🌍
 
-## Getting Started
+Stand for Children is a premium, high-impact non-profit platform dedicated to transparent child sponsorship and community transformation. The application is built with a focus on visual excellence, trust, and measurable impact.
 
-First, run the development server:
+## ✨ Key Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Transparent Sponsorship**: Direct ties between donations and specific outcomes (e.g., Amina's Journey).
+- **Impact Verification**: Real-time tracking of community projects and infrastructure development.
+- **Modern Navigation**: Optimized UX with a mobile-first, sticky navigation bar and intuitive links.
+- **High-Performance UI**: Micro-animations, blurred backdrops, and glassmorphism for a premium feel.
+- **Responsive Design**: Seamless experience across desktop, tablet, and mobile devices.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠 Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **State Management**: React Context API
+- **Animations**: Vanila CSS & Framer Motion (Internal components)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Recent Refinements
 
-## Learn More
+The project has recently undergone significant UX and content refinements:
 
-To learn more about Next.js, take a look at the following resources:
+- **Navigation Overhaul**: Unified the link structure, added "Sponsor a Child" direct access, and optimized the layout for better visual grouping.
+- **Logo Persistence**: Ensured brand visibility by keeping the "Stand for Children" text visible on mobile devices.
+- **Content Streamlining**: Focused the Home and Impact pages on core narratives, removing redundant efficiency charts and trust badges to prioritize human-centric storytelling.
+- **Mobile UX**: Refined the hamburger menu positioning and action button grouping for better one-handed usability.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🏁 Getting Started
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Prerequisites
 
-## Deploy on Vercel
+- Node.js (Latest LTS recommended)
+- npm or yarn
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Installation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Clone the repository:
+
+   ```bash
+   git clone [repository-url]
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Build for production:
+   ```bash
+   npm run build
+   ```
+
+## 📜 License
+
+This project is proprietary and built for Stand for Children.
+
+---
+
+Built with ❤️ for a better future for every child.
