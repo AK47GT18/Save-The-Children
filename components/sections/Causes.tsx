@@ -24,9 +24,26 @@ const GET_CAUSES = gql`
   }
 `;
 
+interface CauseNode {
+  id: string;
+  title: string;
+  excerpt: string;
+  featuredImage: {
+    node: {
+      sourceUrl: string;
+    };
+  } | null;
+}
+
+interface CausesData {
+  posts: {
+    nodes: CauseNode[];
+  };
+}
+
 const Causes = () => {
   const { openModal } = useDonation();
-  const { loading, error, data } = useQuery(GET_CAUSES);
+  const { loading, error, data } = useQuery<CausesData>(GET_CAUSES);
 
   if (loading) return (
     <div className="py-20 text-center">
