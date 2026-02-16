@@ -7,15 +7,22 @@ import Button from '../ui/Button';
 import { useDonation } from '@/context/DonationContext';
 import Link from 'next/link';
 
-const Hero = () => {
+const Hero = ({ data }: { data?: any }) => {
   const { openModal } = useDonation();
+
+  const headline = data?.heroHeadline || "Every hour without school costs a child their future.";
+  const subheadline = data?.heroSubheadline || "Global Education Crisis";
+  const body = data?.heroBody || "Amina walks 6km just to fetch water. She should be walking to school. Help us put 1,000 children back in classrooms before school starts Monday.";
+  const image = data?.heroImage?.node?.sourceUrl || "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1600&auto=format&fit=crop";
+  const primaryBtn = data?.heroPrimaryButton || "Change Amina's Life Today";
+  const secondaryBtn = data?.heroBtnSecondary || "See Where Your Money Goes";
 
   return (
   <div id="home" className="relative min-h-[90vh] md:h-[75vh] w-full flex items-center overflow-hidden py-20 md:py-0">
     {/* Background Image with Overlay */}
     <div className="absolute inset-0 z-0">
       <Image 
-        src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1600&auto=format&fit=crop" 
+        src={image} 
         alt="Child Smiling" 
         fill
         className="object-cover blur-[2px] scale-105"
@@ -31,21 +38,20 @@ const Hero = () => {
           <span className="bg-primary px-3 py-1 rounded-full text-brand-dark text-[10px] font-bold uppercase tracking-widest shadow-lg shadow-primary/20">
             Emergency Appeal
           </span>
-          <span className="text-white/50 text-[10px] font-medium uppercase tracking-wider hidden sm:block">Global Education Crisis</span>
+          <span className="text-white/50 text-[10px] font-medium uppercase tracking-wider hidden sm:block">{subheadline}</span>
         </div>
-        <h1 className="text-4xl xs:text-5xl md:text-6xl font-bold leading-[1.1] mb-6 tracking-tight font-serif">
-          Every hour <span className="text-primary italic">without school</span> costs a child their future.
+        <h1 className="text-4xl xs:text-5xl md:text-6xl font-bold leading-[1.1] mb-6 tracking-tight font-serif whitespace-pre-line">
+          {headline}
         </h1>
         <p className="text-base md:text-lg text-white/70 mb-10 leading-relaxed max-w-xl">
-          Amina walks 6km just to fetch water. She should be walking to school. 
-          Help us put 1,000 children back in classrooms before school starts Monday.
+          {body}
         </p>
         <div className="flex flex-col sm:flex-row gap-3">
           <Button size="lg" variant="primary" className="w-full sm:w-auto text-sm sm:text-base" onClick={openModal}>
-            Change Amina&apos;s Life Today
+            {primaryBtn}
           </Button>
           <Link href="/#impact" className="px-6 sm:px-9 py-3 sm:py-4 text-sm sm:text-base rounded-full font-semibold transition-all duration-300 flex items-center justify-center gap-2 border-2 border-white/25 text-white bg-white/10 hover:bg-white/20 group w-full sm:w-auto">
-            See Where Your Money Goes <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            {secondaryBtn} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </div>

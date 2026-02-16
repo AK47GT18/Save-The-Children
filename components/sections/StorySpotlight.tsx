@@ -3,7 +3,12 @@ import Image from 'next/image';
 import { CheckCircle2, HandHeart } from 'lucide-react';
 import Button from '../ui/Button';
 
-const StorySpotlight = () => (
+const StorySpotlight = ({ data }: { data?: any }) => {
+  const quote = data?.quote || "I used to walk 4 hours for water. Now, I spend those 4 hours in the library.";
+  const author = data?.author || "Amina, Age 9";
+  const image = data?.image?.node?.sourceUrl || "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=800";
+
+  return (
   <section className="py-20 bg-brand-light relative overflow-hidden">
     <div className="absolute top-0 right-0 w-1/2 h-full bg-secondary/5 skew-x-12 translate-x-1/2"></div>
     <div className="container mx-auto px-6 relative z-10">
@@ -13,7 +18,7 @@ const StorySpotlight = () => (
           <div className="absolute -inset-3 bg-secondary/10 rounded-[3rem] group-hover:scale-105 transition-transform duration-700"></div>
           <div className="relative h-[500px] rounded-[2.5rem] overflow-hidden shadow-xl ring-1 ring-black/5">
             <Image 
-              src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=800" 
+              src={image} 
               alt="Amina's Journey" 
               fill 
               className="object-cover" 
@@ -24,9 +29,9 @@ const StorySpotlight = () => (
                 <CheckCircle2 className="w-4 h-4" /> Visible Outcome
               </div>
               <p className="text-brand-dark font-bold text-xl leading-tight font-serif italic">
-                &ldquo;I used to walk 4 hours for water. Now, I spend those 4 hours in the library.&rdquo;
+                &ldquo;{quote}&rdquo;
               </p>
-              <p className="text-slate-500 mt-3 font-semibold uppercase tracking-wider text-[10px]">— Amina, Age 9</p>
+              <p className="text-slate-500 mt-3 font-semibold uppercase tracking-wider text-[10px]">— {author}</p>
             </div>
           </div>
           {/* Floating Intervention Card */}
@@ -79,6 +84,7 @@ const StorySpotlight = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default StorySpotlight;

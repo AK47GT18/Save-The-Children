@@ -1,0 +1,167 @@
+# Headless Implementation Strategy & Analysis
+**Project:** Stand for Children (Headless Migration)
+**Date:** 2026-02-14
+
+## 1. Executive Summary
+The current "Stand for Children" application is a hybrid implementation. While it uses Next.js for the frontend, the majority of the content (Hero text, Timeline events, Impact stats, Story spotlights) is **hardcoded** in React components. This assumes a "code-first" content changes workflow, which is inefficient for non-technical marketing teams.
+
+**Goal:** Decouple content from code. Move all text, images, and data structures to WordPress, exposing them via WPGraphQL, and consume them statically (ISR) in Next.js.
+
+---
+
+## 2. Content Modeling (WordPress Backend)
+
+To support the rich UI, we need to restructure WordPress data. We will use **Advanced Custom Fields (ACF)** and **Custom Post Types (CPT)**.
+
+### A. Global Settings (ACF Option Page)
+*Rationale: Data that appears on every page or affects the whole site.*
+*   **Field Group:** `Global Site Settings`
+*   **Fields:**
+    *   `Emergency Banner`: Toggle (On/Off), Text ("Emergency Appeal..."), Background Color.
+    *   `Contact Info`: Phone Number, Email, Address.
+    *   `Social Links`: Repeater (Platform Name, URL, Icon Class).
+    *   `Footer Text`: Copyright, Legal Links.
+
+### B. Custom Post Types (CPT) & Taxonomies
+
+1.  **Impact Stats** (CPT: `impact_stat`)
+    *   *Used in: `Stats.tsx`, `Transparency.tsx`*
+    *   **Fields:**
+        *   `Number` (e.g., "326")
+        *   `Prefix` (e.g., "MK")
+        *   `Suffix` (e.g., "M")
+        *   `Label` (e.g., "Communities Transformed")
+        *   `Icon` (Select list mapping to Lucide icons)
+        *   `Type` (Select: "General Stat", "Transparency Metric")
+
+2.  **Success Stories** (CPT: `success_story`)
+    *   *Used in: `StorySpotlight.tsx`*
+    *   **Fields:**
+        *   `Hero Image`
+        *   `Quote`
+        *   `Author` (Name, Age)
+        *   `Problem Statement` (Text)
+        *   `Outcome Statement` (Text)
+        *   `Intervention` (Title, Description, Icon)
+
+3.  **Campaigns** (CPT: `campaign`)
+    *   *Used in: `AminaTimeline.tsx`, `LastChanceCTA.tsx`*
+    *   **Fields:**
+        *   `Timeline`: Repeater (Month, Event Title, Description, Color Status)
+        *   `Urgency Settings`: "Hours Left", "Children Remaining"
+        *   `CTA Text`
+
+4.  **Donation Tiers** (CPT: `donation_tier`)
+    *   *Used in: `ImpactCards.tsx`*
+    *   **Fields:**
+        *   `Amount`
+        *   `Label` ("School Supplies")
+        *   `Impact Description`
+        *   `Icon`
+
+### C. Page Specific Fields (ACF on Pages)
+
+**Page: Home**
+*   **Tab: Hero**
+    *   `Headline`
+    *   `Subheadline`
+    *   `Background Image`
+    *   `Primary Button Text` & `Link`
+    *   `Secondary Button Text` & `Link`
+*   **Tab: Transparency**
+    *   `Efficiency Rating` (Number, e.g., 92)
+    *   `Allocation`: Repeater (Percentage, Label, Description, Color)
+*   **Tab: Authority Quote**
+    *   `Quote Text`
+    *   `Author Name`
+    *   `Author Title`
+
+---
+
+## 3. Frontend Architecture (Next.js)
+
+### A. Environment & Configuration
+*   **`codegen.ts`**: Configure GraphQL Code Generator to watch the WPGraphQL endpoint and generate strict TypeScript types for all queries.
+*   **`.env.local`**: Store `NEXT_PUBLIC_WORDPRESS_API_URL`.
+
+### B. Directory Structure
+```
+app/
+├── lib/
+│   ├── graphql/
+│   │   ├── client.ts       // Apollo Client instance
+│   │   ├── fragments.ts    // Reusable fragments (Image, Button)
+│   │   ├── queries.ts      // Page-level queries (GetHomePage)
+│   │   └── types.ts        // Generated types
+```
+
+### C. Component Refactoring Strategy
+Every section component needs to be updated to accept data props instead of hardcoding.
+
+**Example: Hero.tsx**
+```tsx
+// Before
+<h1>Every hour without school...</h1>
+
+// After
+interface HeroProps {
+  headline: string;
+  subheadline: string;
+  bgImage: string;
+}
+const Hero = ({ headline, subheadline, bgImage }: HeroProps) => { ... }
+```
+
+### D. Data Fetching (ISR)
+In `app/page.tsx`, we will fetch data at build time with revalidation.
+
+```tsx
+// app/page.tsx
+import { getClient } from "@/lib/client";
+import { GET_HOME_PAGE } from "@/lib/graphql/queries";
+
+export const revalidate = 60; // Update every 60 seconds
+
+export default async function Home() {
+  const { data } = await getClient().query({ query: GET_HOME_PAGE });
+  const { hero, stats, stories } = data.page.homeFields;
+
+  return (
+    <main>
+       <Hero data={hero} />
+       <Stats data={stats} />
+       {/* ... */}
+    </main>
+  );
+}
+```
+
+---
+
+## 4. Implementation Steps (Checklist)
+
+### Phase 1: WordPress Setup (Backend)
+1.  [ ] Install **ACF Pro** and **WPGraphQL** + **WPGraphQL for ACF**.
+2.  [ ] Register CPTs: `Impact Stats`, `Success Stories`, `Donation Tiers`.
+3.  [ ] Create Field Groups for `Home Page` and `Global Options`.
+4.  [ ] Populate WordPress with the exact data currently hardcoded in the React components (copy/paste).
+5.  [ ] Validate GraphQL queries in GraphiQL IDE.
+
+### Phase 2: React Refactoring (Frontend)
+1.  [ ] Setup Apollo Client & Code Generator.
+2.  [ ] **Hero Section**: Create query, add props, remove hardcoded text.
+3.  [ ] **Stats Section**: Fetch `impact_stat` CPTs, map to component.
+4.  [ ] **Amina Timeline**: Fetch timeline repeater from Home Page fields.
+5.  [ ] **Story Spotlight**: Fetch latest `success_story`.
+6.  [ ] **Impact Cards**: Fetch `donation_tier` CPTs.
+7.  [ ] **Transparency**: Fetch allocation data from Home Page fields.
+8.  [ ] **Footer/Nav**: Fetch from Global Options.
+
+### Phase 3: Deployment
+1.  [ ] Configure `revalidate` tags for ISR.
+2.  [ ] Setup Webhooks in WordPress (`/api/revalidate`) to clear Next.js cache on content update.
+
+---
+
+## 5. Conclusion
+This architecture allows marketing to change specific numbers (like the "92%" efficiency) or swap out the entire "Star Student" story without a developer deployment. The Next.js frontend remains performant by acting as a static view layer for the dynamic WordPress data.

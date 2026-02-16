@@ -1,0 +1,255 @@
+# WordPress Data Architecture Guide (Enriched & Finalized)
+**Project:** Stand for Children
+**Date:** 2026-02-14
+**Status:** Ready for Implementation
+
+This document outlines the exact **Advanced Custom Fields (ACF)** structure required to power the application, populated with the **current hardcoded content** from the codebase.
+
+---
+
+## 1. Global Settings & Shared Data
+**Location Rule:** Options Page == "Global Options" (or Front Page)
+
+| Tab / Section | Field Label | Field Name | Field Type | Content Value / Instruction |
+| --- | --- | --- | --- | --- |
+| **Top Bar** | Notification Text | `global_notification` | Text | *[Manage top bar alerts here]* |
+| **Social Proof** | Notification Enabled | `sp_enabled` | True/False | True |
+| | Donor Count Base | `sp_count` | Number | 12 |
+| | Time Ago Base | `sp_time_ago` | Number | 8 |
+| | Notification Text | `sp_text` | Text | "people donated today" |
+| **Footer** | Mission Statement | `footer_mission` | Text Area | "Transforming communities through radical transparency and verified impact since 2009." |
+| | Contact Phone | `contact_phone` | Text | *[Add your phone number]* |
+| | Contact Email | `contact_email` | Text | *[Add your email]* |
+| | Social Links | `social_links` | Repeater | Add rows for Facebook, Twitter, Instagram, Linkedin urls |
+| **Shared** | **Join Community** | `shared_join` | **Group** | *Used in multiple places* |
+| | Headline | `join_headline` | Text | "Be part of the 92%." |
+| | Subheadline | `join_subhead` | Text Area | "Join our community of over 25,000 donors who receive verification for every cent they contribute." |
+| | CTA Label | `join_cta_label` | Text | "Start Your Sponsorship" |
+| **Shared** | **Leadership Section** | `shared_leadership` | **Group** | *Section headers for Team list* |
+| | Eyebrow | `lead_eyebrow` | Text | "The Leadership" |
+| | Headline | `lead_headline` | Text | "Meet the people guiding the mission." |
+| | CTA Label | `lead_cta_label` | Text | "Join the Team" |
+| **Shared** | **Partners Section** | `shared_partners` | **Group** | *Section headers for Partner slider* |
+| | Headline | `partner_headline` | Text | "Institutional & Legacy Partners" |
+
+---
+
+## 2. Post Types (CPT) Content
+
+### A. Team Members (`team_member`)
+*Used in: About Page, Global Leadership Section*
+
+| Name | Role | Bio | Image URL |
+| --- | --- | --- | --- |
+| Grace Mwanza | Regional Director | Grace brings 15 years of experience in regional development across East Africa. She leads our ground operations with a focus on sustainable infrastructure. | `https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800` |
+| David Phiri | Head of Operations | A logistics expert dedicated to ensuring that 92% of every kwacha reaches the intended recipient without delay. | `https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800` |
+| Sarah Jere | Community Lead | Sarah works directly with village elders and families to ensure our programs are culturally resonant and community-driven. | `https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=800` |
+| Michael Banda | Financial Oversight | Ensuring radical transparency through monthly audits and real-time fund tracking systems. | `https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=800` |
+
+### B. Board Members (`board_member`)
+*Used in: Board Page*
+
+| Name | Role | Role Description |
+| --- | --- | --- |
+| Hon. Jane Chimutu | Chairperson | Former Minister of Education with 30 years of public service experience. |
+| Dr. Robert Lawson | Vice Chair | Global health expert and former WHO consultant for rural medicine. |
+| Precious Kapita | Treasurer | Chartered Accountant and specialist in NGO financial sustainability. |
+| Thoko Mbeki | Governance | Human rights lawyer focusing on child protection and legislative policy. |
+
+### C. Partners (`partner`)
+*Used in: DonorSlider Component (Home/About)*
+
+| Name | Type | Contribution | Logo/Image |
+| --- | --- | --- | --- |
+| The Global Fund | Institutional | Grants & Logistics | *[Upload Logo]* |
+| Oxfam International | NGO Partner | Program Implementation | *[Upload Logo]* |
+| Vanguard Philanthropy | Private Equity | Core Funding | *[Upload Logo]* |
+| Mastercard Foundation | Corporate | Infrastructure | *[Upload Logo]* |
+| Bill & Melinda Gates | Legacy Member | Strategic Advisory | *[Upload Logo]* |
+| Unilever Africa | Corporate | Supply Chain | *[Upload Logo]* |
+
+### D. Jobs (`job`)
+*Used in: Careers Page*
+
+| Job Title | Location | Type |
+| --- | --- | --- |
+| Field Officer | Lilongwe, Malawi | Full-time |
+| Regional Fundraising Lead | Remote / Multiple | Contract |
+| Program Evaluation Specialist | Blantyre, Malawi | Full-time |
+
+### E. Causes (`post`) 
+*Use Standard WordPress 'Posts'. Categories can be 'Verticals'.*
+*Used in: Causes Page, Causes Section on Home*
+*Fields needed: Title, Excerpt, Featured Image*
+
+---
+
+## 3. Page-Specific Field Groups
+
+### A. Home Page (`Content: Home`)
+**Location:** Page Type == Front Page
+
+| Tab / Section | Field Label | Field Name | Field Type | Content Value |
+| --- | --- | --- | --- | --- |
+| **Hero** | Headline | `hero_headline` | Text | "Every hour without school costs a child their future." |
+| | Subheadline | `hero_subheadline` | Text | "Global Education Crisis" |
+| | Body | `hero_body` | Text Area | "Amina walks 6km just to fetch water. She should be walking to school. Help us put 1,000 children back in classrooms before school starts Monday." |
+| | Image | `hero_image` | Image | `https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1600&auto=format&fit=crop` |
+| | Pri Button | `hero_btn_primary` | Text | "Change Amina's Life Today" |
+| | Sec Button | `hero_btn_secondary` | Text | "See Where Your Money Goes" |
+| **Stats** | **Impact Stats** | `impact_stats` | **Repeater** | *See below* |
+| *(Row 1)* | Stat | `number` | | "326" (Label: "Communities Transformed") |
+| *(Row 2)* | Stat | `number` | | "25" (Prefix: "MK", Suffix: "M", Label: "Direct Impact Allocated") |
+| *(Row 3)* | Stat | `number` | | "125" (Label: "Teachers & Protectors") |
+| *(Row 4)* | Stat | `number` | | "15" (Label: "Years of Saving Lives") |
+| **Why Us** | **Features** | `why_us_items` | **Repeater** | *See below* |
+| *(Row 1)* | Title | `title` | | "Local Teams, Not Fly-In Aid" (Desc: "Our staff live in the communities...") |
+| *(Row 2)* | Title | `title` | | "Funds Released After Proof" (Desc: "Money is only released when outcomes are verified...") |
+| *(Row 3)* | Title | `title` | | "3+ Year Commitments" (Desc: "We don’t do one-off donations...") |
+| **Timeline** | **Timeline** | `timeline` | **Repeater** | *See below* |
+| *(Row 1)* | Month | `time_marker` | | "Month 0" ("No clean water source", "Amina walks 4 hours daily. No time for school.") |
+| *(Row 2)* | Month | `time_marker` | | "Month 1" ("Well installed", "Clean water 100m from home. MK84,000 funded by donors.") |
+| *(Row 3)* | Month | `time_marker` | | "Month 6" ("School attendance +40%", "Amina attends school daily. Reading at grade level.") |
+| *(Row 4)* | Month | `time_marker` | | "Month 12" ("Literacy milestone", "Top 5 in her class. Wants to be a teacher.") |
+| **Story** | Quote | `spotlight_quote` | Text Area | "I used to walk 4 hours for water. Now, I spend those 4 hours in the library." |
+| | Author | `spotlight_author` | Text | "Amina, Age 9" |
+| | Image | `spotlight_image` | Image | `https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=800` |
+| | Intervention | `intervention_title` | Text | "The Moment Everything Changed" (Desc: "Your MK84,000 donation provided the well...") |
+| **Impact** | **Donation Tiers** | `donation_tiers` | **Repeater** | *See below* |
+| *(Row 1)* | Amount | `amount` | | "4,200" (Label: "School Supplies", Impact: "Provides 1 child with books, bags, and uniforms for a full year.") |
+| *(Row 2)* | Amount | `amount` | | "8,400" (Label: "Monthly Meals", Impact: "Ensures no child in our programs goes to bed hungry for 30 days.") |
+| *(Row 3)* | Amount | `amount` | | "16,800" (Label: "Teacher Fund", Impact: "Supports salary and training for community-led educators in rural zones.") |
+| **Transparency** | Eyebrow | `transparency_eyebrow`| Text | "Trust & Transparency" |
+| | Headline | `transparency_head` | Text | "Where your money actually goes." |
+| | Body | `transparency_body` | Text Area | "Donors don't doubt your heart—they doubt your systems..." |
+| | Efficiency | `efficiency_rating` | Number | 92 |
+| | **Allocation** | `fund_allocation` | **Repeater** | *See below* |
+| *(Row 1)* | % | `percentage` | | 85 (Label: "Programs & Direct Aid", Desc: "Classrooms, supplies, teacher salaries, clean water") |
+| *(Row 2)* | % | `percentage` | | 10 (Label: "Fundraising", Desc: "Growing our donor community") |
+| *(Row 3)* | % | `percentage` | | 5 (Label: "Administration", Desc: "Essential operations & compliance") |
+| **Campaign** | Headline | `campaign_headline` | Text | "School starts in 48 hours." |
+| | Subhead | `campaign_subhead` | Text | "37 children still lack uniforms. One sponsorship changes everything." |
+| **Quote** | Quote | `leader_quote` | Text Area | "We reject short-term aid. If we can't fund a child for at least 3 years, we don't start. That's our promise to them." |
+| | Author | `leader_name` | Text | "Grace Mwanza" |
+| | Title | `leader_title` | Text | "Regional Director, Sub-Saharan Africa" |
+
+### B. About Page (`Content: About`)
+**Location:** Page Template == Default OR Page Title == "About"
+
+| Tab / Section | Field Label | Field Name | Field Type | Content Value |
+| --- | --- | --- | --- | --- |
+| **Hero** | Headline | `hero_headline` | Text | "Radical transparency. Verified impact." |
+| | Description | `hero_desc` | Text Area | "Since 2009, we've been working to transform communities by focusing on what actually works: long-term commitment and measurable results." |
+| **Mission** | Main Image | `mission_image` | Image | `https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1200` |
+| | Quote Text | `mission_quote` | Text Area | "We don't just fund projects; we protect futures." |
+| | Quote Author | `mission_author` | Text | "Grace Mwanza" |
+| | Mission Title | `mission_title` | Text | "Our Mission & Ethics" |
+| | Mission Body | `mission_body` | Text Area | "We believe that the global education crisis isn't just a lack of funding, but a lack of transparency..." |
+| | **Values** | `mission_values` | **Repeater** | *See below* |
+| *(Row 1)* | Title | `title` | | "Long-term Commitment" ("We stay in a community for a minimum of 10 years.") |
+| *(Row 2)* | Title | `title` | | "Measurable Progress" ("Satellite data confirms school builds and well health.") |
+| *(Row 3)* | Title | `title` | | "Culturally Anchored" ("100% of our ground staff are from the regions we serve.") |
+| **Pillars** | **Pillars** | `pillars` | **Repeater** | *See below* |
+| *(Row 1)* | Title | `title` | | "Direct Funding" ("Bypassing bureaucratic layers to get funds straight to local hands.") |
+| *(Row 2)* | Title | `title` | | "Audited Results" ("Every project is verified by third-party auditors and satellite data.") |
+| *(Row 3)* | Title | `title` | | "Local Leadership" ("We empower communities to lead their own transformation.") |
+
+### C. Amina's Journey (`Content: Story Page`)
+**Location:** Page Title == "Amina's Journey"
+
+| Tab / Section | Field Label | Field Name | Field Type | Content Value |
+| --- | --- | --- | --- | --- |
+| **Hero** | Hero Image | `hero_image` | Image | `https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1600&auto=format&fit=crop` |
+| | Title | `hero_title` | Text | "Amina's Journey" |
+| | Subtitle | `hero_subtitle` | Text | "One child, one path, thousands of possibilities." |
+| | Tag | `hero_tag` | Text | "Featured Story" |
+| **Content** | Body | `story_body` | WYSIWYG | "Amina lives in a community where education was once a luxury reserved for those who didn't have to walk miles for water..." |
+
+### D. Board Page (`Content: Board`)
+**Location:** Page Title == "Board of Trustees"
+
+| Field Label | Field Name | Field Type | Content Value |
+| --- | --- | --- | --- |
+| Headline | `hero_headline` | Text | "Board of Trustees" |
+| Description | `hero_desc` | Text Area | "Our board provides the strategic direction and governance required to maintain our high standards of excellence and transparency." |
+| *Members* | *See CPT Section Above* | | |
+
+### E. Careers Page (`Content: Careers`)
+**Location:** Page Title == "Careers"
+
+| Field Label | Field Name | Field Type | Content Value |
+| --- | --- | --- | --- |
+| Headline | `hero_headline` | Text | "Careers" |
+| Description | `hero_desc` | Text Area | "Join a team of passionate individuals dedicated to delivering verified impact and sustainable change." |
+| *Jobs* | *See CPT Section Above* | | |
+
+### F. Causes Page (`Content: Causes`)
+**Location:** Page Title == "Causes"
+
+| Tab / Section | Field Label | Field Name | Field Type | Content Value |
+| --- | --- | --- | --- | --- |
+| **Hero** | Title | `hero_title` | Text | "Focused on what actually matters." |
+| | Subtitle | `hero_subtitle` | Text | "The Mission Verticals" |
+| | Description | `hero_desc` | Text Area | "We specialize in deep, long-term interventions that solve the root causes of poverty..." |
+| **Verticals** | **Verticals** | `mission_verticals` | **Repeater** | *See below* |
+| *(Row 1)* | Title | `title` | | "Education & Literacy" (Stat: "42k+ Children Enrolled", Desc: "Building schools, training local teachers...") |
+| *(Row 2)* | Title | `title` | | "Clean Water & Hygiene" (Stat: "150k+ Residents Reached", Desc: "Drilling deep-capped boreholes...") |
+| *(Row 3)* | Title | `title` | | "Community Health" (Stat: "45 Clinics Built", Desc: "Establishing regional health posts...") |
+| **Philosophy** | Title | `philo_title` | Text | "Solving problems at the source." |
+| | Quote | `philo_quote` | Text Area | "Giving food feeds a child for a day. Ensuring a community has irrigation and resilient seeds feeds them for generations. We choose the latter." |
+| | Efficiency | `efficiency_stat` | Number | 92 |
+
+### G. Donors / Sponsor Page (`Content: Donors`)
+**Location:** Page Title == "Donors"
+
+| Tab / Section | Field Label | Field Name | Field Type | Content Value |
+| --- | --- | --- | --- | --- |
+| **Hero** | Title | `hero_title` | Text | "How would you like to help today?" |
+| | Description | `hero_desc` | Text Area | "Choose a specific area where you want your contribution to make a difference. 100% of these funds are tracked and verified." |
+| **Options** | **Aid Options** | `aid_options` | **Repeater** | *See below* |
+| *(Row 1)* | Title | `title` | | "Sponsor a Child" (Price: "84,000", Desc: "Covers tuition, books, and uniforms for one student for an entire year.") |
+| *(Row 2)* | Title | `title` | | "Community Meals" (Price: "42,000", Desc: "Ensures 50 children have nutritional hot meals in their classroom for a month.") |
+| *(Row 3)* | Title | `title` | | "Clean Water Well" (Price: "150,000", Desc: "Provides a permanent solar-powered well for an entire community.") |
+| *(Row 4)* | Title | `title` | | "Mobile Health Clinic" (Price: "65,000", Desc: "Funding for one week of doctor visits and emergency medical supplies.") |
+
+### H. Financials Page (`Content: Financials`)
+**Location:** Page Title == "Financials"
+
+| Field Label | Field Name | Field Type | Content Value |
+| --- | --- | --- | --- |
+| Title | `hero_title` | Text | "Every cent is audited & verified." |
+| Description | `hero_desc` | Text Area | "We leverage satellite tracking and third-party ground audits to ensure 92% of your support becomes real, measurable impact." |
+| **Trust Pts** | **Trust Points** | `trust_points` | **Repeater** | *See below* |
+| *(Row 1)* | Title | `title` | | "Open Ledger" ("Every transaction is logged in our real-time portal.") |
+| *(Row 2)* | Title | `title` | | "Zero Ghost Costs" ("We cover logistics through institutional grants.") |
+| *(Row 3)* | Title | `title` | | "Monthly Audits" ("Third-party validation of every kwacha spent.") |
+| CTA Title | `cta_title` | Text | "Invest in verified futures." |
+| CTA Text | `cta_text` | Text | "Join 25,000+ donors who don't just hope for change—they confirm it." |
+
+### I. Impact Page (`Content: Impact`)
+**Location:** Page Title == "Impact"
+
+| Tab / Section | Field Label | Field Name | Field Type | Content Value |
+| --- | --- | --- | --- | --- |
+| **Hero** | Title | `hero_title` | Text | "Turning hope into measurable reality." |
+| | Description | `hero_desc` | Text Area | "We don't just deliver aid; we build self-sustaining ecosystems..." |
+| **Infra**| **Infra Stats** | `infra_stats` | **Repeater** | *See below* |
+| *(Row 1)* | Title | `title` | | "Eco-Friendly Classrooms" (Count: "124 built", Desc: "Solar-powered learning environments...") |
+| *(Row 2)* | Title | `title` | | "Deep-Capped Boreholes" (Count: "326 operational", Desc: "Providing permanent clean water access...") |
+| *(Row 3)* | Title | `title` | | "Regional Health Posts" (Count: "45 clinics", Desc: "Equipped for emergency delivery...") |
+| **Feature** | Title | `feat_title` | Text | "Mangochi Multi-Center" |
+| | Image | `feat_image` | Image | `https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&q=80&w=800` |
+| | Stat | `feat_stat` | Text | "100% Solar Powered" |
+| **Stories** | **Stories** | `impact_stories` | **Repeater** | *See below* |
+| *(Row 1)* | Name | `name` | | "Amina's New Horizon" (Role: "Primary Student", Quote: "I used to walk 8km...", Impact: "First in family to attend secondary school.", Img: `https://images.unsplash.com/photo-1489710437720-ebb67ec84dd2?auto=format&fit=crop&q=80&w=800`) |
+| *(Row 2)* | Name | `name` | | "Kondwani Banda" (Role: "Community Lead", Quote: "We didn't just build...", Impact: "Reduced local maternal mortality by 40%.", Img: `https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&q=80&w=800`) |
+
+### J. Mission Page (`Content: Mission`)
+**Location:** Page Title == "Mission"
+
+| Field Label | Field Name | Field Type | Content Value |
+| --- | --- | --- | --- |
+| Title | `mission_title` | Text | "Our Mission" |
+| Body | `mission_body` | Text Area | "To provide every child with the tools, environment, and support needed to thrive, focusing on education, health, and community sustainability." |
+| Highlight | `mission_highlight` | Text Area | "We don't just build schools; we build foundations for a life of dignity and opportunity." |
+

@@ -1,15 +1,41 @@
 "use client";
 
 import React from 'react';
-import { MapPin, TrendingUp as Impact, CheckCircle as Success } from 'lucide-react';
+import { MapPin, TrendingUp as Impact, CheckCircle as Success, HeartHandshake } from 'lucide-react';
 import AnimatedCounter from '../ui/AnimatedCounter';
 
-const Stats = () => {
+
+const iconMap: any = {
+  'users': MapPin,
+  'circle-dollar-sign': Impact,
+  'graduation-cap': Success,
+  'heart-handshake': HeartHandshake,
+};
+
+const Stats = ({ data }: { data?: any }) => {
   const stats = [
-    { target: 326, prefix: "", suffix: "", label: "Communities Transformed", icon: MapPin },
-    { target: 25, prefix: "MK", suffix: "M", label: "Direct Impact Allocated", icon: Impact },
-    { target: 125, prefix: "", suffix: "", label: "Teachers & Protectors", icon: Success },
-    { target: 15, prefix: "", suffix: "", label: "Years of Saving Lives", icon: Success },
+    { 
+      target: parseInt(data?.stat1Number) || 326, 
+      label: data?.stat1Label || "Communities Transformed", 
+      icon: iconMap[data?.stat1Icon] || MapPin 
+    },
+    { 
+      target: parseInt(data?.stat2Number) || 25, 
+      prefix: "MK", 
+      suffix: "M", 
+      label: data?.stat2Label || "Direct Impact Allocated", 
+      icon: iconMap[data?.stat2Icon] || Impact 
+    },
+    { 
+      target: parseInt(data?.stat3Number) || 125, 
+      label: data?.stat3Label || "Teachers & Protectors", 
+      icon: iconMap[data?.stat3Icon] || Success 
+    },
+    { 
+      target: parseInt(data?.stat4Number) || 15, 
+      label: data?.stat4Label || "Years of Saving Lives", 
+      icon: iconMap[data?.stat4Icon] || HeartHandshake 
+    },
   ];
 
   return (

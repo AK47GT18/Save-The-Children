@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'randomuser.me',
       },
+      {
+        protocol: 'https',
+        hostname: 'dev-save-the-childern-wp.pantheonsite.io',
+      },
     ],
   },
 };

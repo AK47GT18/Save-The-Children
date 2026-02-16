@@ -1,0 +1,59 @@
+# Headless Implementation Analysis & Steps
+
+## Current State Analysis
+The application is currently a **hybrid headless app**. It uses Next.js for the frontend and Apollo Client to fetch "Causes" from a WordPress backend (hosted on Pantheon). However, a significant amount of content remains hardcoded in React components, which prevents the client from managing all aspects of the site through the CMS.
+
+### Hardcoded Elements Identified:
+- **Hero Section**: Headline, subheadline, background images.
+- **Amina's Timeline**: All milestones and descriptions.
+- **Stats Section**: Impact numbers and labels.
+- **Story Spotlight**: Specific quotes and story details.
+- **Transparency Section**: Manual progress bars and efficiency stats.
+- **Infrastructure**: List of built classrooms, boreholes, etc.
+
+---
+
+## Steps to Implement Fully Headless Architecture
+
+### Phase 1: Backend (WordPress) Configuration
+1. **Dynamic Pages with ACF**:
+   - Install **Advanced Custom Fields (ACF)** and **WPGraphQL for ACF**.
+   - Create Field Groups for the "Home" and "Impact" pages.
+   - Include fields for Hero text, background images, and call-to-action links.
+
+2. **Custom Post Types (CPT)**:
+   - Create CPTs for:
+     - **Milestones** (for Amina's Timeline).
+     - **Impact Stats** (for the Stats section).
+     - **Stories** (for the Story Spotlight).
+     - **Infrastructure Projects**.
+   - This allows the team to add new milestones or stories without touching code.
+
+3. **Expose to GraphQL**:
+   - Ensure all CPTs and ACF fields have "Show in GraphQL" enabled.
+   - Test queries in the WPGraphiQL IDE to ensure data structure matches frontend needs.
+
+### Phase 2: Frontend (Next.js) Refactoring
+1. **Centralize Data Fetching**:
+   - Create a `graphql/` directory for queries and fragments.
+   - Example query: `GET_PAGE_CONTENT(slug: "home")`.
+
+2. **Component Refactoring**:
+   - Update `Hero.tsx`, `AminaTimeline.tsx`, and `Stats.tsx` to accept data as props.
+   - Wrap sections in the App Router with `fetch` or Apollo's SSR client to enable **Incremental Static Regeneration (ISR)**. This ensures fast load times and SEO while keeping content up-to-date.
+
+3. **Global Settings**:
+   - Move Footer links, Header contact info, and "Stand for Children" brand text to a "Global Settings" ACF group in WordPress.
+
+### Phase 3: Deployment & Optimization
+1. **Webhook Integration**:
+   - Set up Headless WP webhooks to trigger a Vercel rebuild whenever a post is published or updated in WordPress.
+2. **Image Optimization**:
+   - Ensure WordPress images are served via a CDN (like Photon or Cloudinary) and used with `next/image` for automatic resizing.
+
+---
+
+## Benefits of This Approach
+- **Zero-Code Content Updates**: Non-technical staff can update everything from Amina's age to global stats.
+- **Better Performance**: ISR pre-renders pages as static HTML, reducing the load on the client.
+- **Scalability**: New projects/causes can be launched instantly by adding data in the CMS.

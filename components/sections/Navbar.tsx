@@ -17,7 +17,6 @@ const Navbar = () => {
     { name: 'Impact', href: '/impact' },
     { name: 'Causes', href: '/causes' },
     { name: 'Financials', href: '/financials' },
-    { name: 'Sponsor a Child', href: '/sponsor-a-child' },
   ];
 
   return (
@@ -81,7 +80,7 @@ const Navbar = () => {
             );
           })}
           <div className="mt-4 pt-4 border-t border-slate-100 flex flex-col gap-3">
-            <Link href="/donors" onClick={() => setIsMenuOpen(false)}>
+            <Link href="/sponsor-a-child" onClick={() => setIsMenuOpen(false)}>
               <Button variant="secondary" size="sm" className="w-full">Sponsor a Child</Button>
             </Link>
           </div>

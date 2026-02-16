@@ -5,9 +5,14 @@ import { ShieldCheck, CheckCircle2, Users, ArrowRight } from 'lucide-react';
 import AnimatedBar from '../ui/AnimatedBar';
 import AnimatedCounter from '../ui/AnimatedCounter';
 
-const Transparency = () => {
+const Transparency = ({ data }: { data?: any }) => {
   const [chartVisible, setChartVisible] = useState(false);
   const chartRef = useRef<HTMLDivElement>(null);
+
+  const efficiency = data?.efficiencyRating || 92;
+  const f1 = { percent: data?.fund1Percent || 85, category: data?.fund1Category || "Programs & Direct Aid" };
+  const f2 = { percent: data?.fund2Percent || 10, category: data?.fund2Category || "Fundraising" };
+  const f3 = { percent: data?.fund3Percent || 5, category: data?.fund3Category || "Administration" };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -35,14 +40,14 @@ const Transparency = () => {
                 Where your money <span className="text-secondary">actually goes.</span>
               </h2>
               <p className="text-slate-500 text-lg leading-relaxed mb-10 max-w-xl">
-                Donors don't doubt your heart—they doubt your systems. We maintain a 92% efficiency rating, meaning almost every cent reaches the field.
+                Donors don't doubt your heart—they doubt your systems. We maintain a {efficiency}% efficiency rating, meaning almost every cent reaches the field.
               </p>
 
               {/* Animated Allocation Bars */}
               <div className="space-y-5 mb-8">
-                <AnimatedBar color="bg-secondary" percentage={85} label="Programs & Direct Aid" description="Classrooms, supplies, teacher salaries, clean water" delay={0} />
-                <AnimatedBar color="bg-primary" percentage={10} label="Fundraising" description="Growing our donor community" delay={200} />
-                <AnimatedBar color="bg-slate-300" percentage={5} label="Administration" description="Essential operations & compliance" delay={400} />
+                <AnimatedBar color="bg-secondary" percentage={f1.percent} label={f1.category} description="Classrooms, supplies, teacher salaries, clean water" delay={0} />
+                <AnimatedBar color="bg-primary" percentage={f2.percent} label={f2.category} description="Growing our donor community" delay={200} />
+                <AnimatedBar color="bg-slate-300" percentage={f3.percent} label={f3.category} description="Essential operations & compliance" delay={400} />
               </div>
 
               {/* Trust Badges */}
@@ -75,7 +80,7 @@ const Transparency = () => {
                       style={{ clipPath: chartVisible ? 'polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 50%)' : 'polygon(50% 50%, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 50%)' }}
                     ></div>
                     <div className="text-center">
-                       <p className="text-4xl font-bold text-brand-dark font-serif">{chartVisible ? '92' : '0'}%</p>
+                       <p className="text-4xl font-bold text-brand-dark font-serif">{chartVisible ? efficiency : '0'}%</p>
                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Efficiency Rating</p>
                     </div>
                  </div>

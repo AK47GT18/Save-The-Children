@@ -4,12 +4,27 @@ import React from 'react';
 import { GraduationCap, HandHeart, ShieldCheck } from 'lucide-react';
 import { useDonation } from '@/context/DonationContext';
 
-const ImpactCards = () => {
+const ImpactCards = ({ data }: { data?: any }) => {
   const { openModal } = useDonation();
   const tiers = [
-    { amount: "4,200", label: "School Supplies", impact: "Provides 1 child with books, bags, and uniforms for a full year.", icon: GraduationCap },
-    { amount: "8,400", label: "Monthly Meals", impact: "Ensures no child in our programs goes to bed hungry for 30 days.", icon: HandHeart },
-    { amount: "16,800", label: "Teacher Fund", impact: "Supports salary and training for community-led educators in rural zones.", icon: ShieldCheck },
+    { 
+      amount: data?.tier1Amount || "4,200", 
+      label: data?.tier1Title || "School Supplies", 
+      impact: data?.tier1Desc || "Provides 1 child with books, bags, and uniforms for a full year.", 
+      icon: GraduationCap 
+    },
+    { 
+      amount: data?.tier2Amount || "8,400", 
+      label: data?.tier2Title || "Monthly Meals", 
+      impact: data?.tier2Desc || "Ensures no child in our programs goes to bed hungry for 30 days.", 
+      icon: HandHeart 
+    },
+    { 
+      amount: data?.tier3Amount || "16,800", 
+      label: data?.tier3Title || "Teacher Fund", 
+      impact: data?.tier3Desc || "Supports salary and training for community-led educators in rural zones.", 
+      icon: ShieldCheck 
+    },
   ];
 
   return (
